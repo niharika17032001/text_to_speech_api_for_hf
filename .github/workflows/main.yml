@@ -1,1 +1,56 @@
+name: Run Python Script with Venv
 
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Specify your Python version
+
+      - name: Create and Cache Venv
+        id: cache-venv
+        uses: actions/cache@v4
+        with:
+          path: .venv # Path to your virtual environment directory
+          key: ${{ runner.os }}-venv-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+
+      - name: Install dependencies into Venv
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+        # Only run this step if the cache was missed (venv not restored)
+        # This condition ensures dependencies are only installed if the venv isn't already cached.
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+
+      - name: Activate Venv and Run script
+        run: |
+          source .venv/bin/activate
+          python model_handler.py
+          
+          
+          
+          chmod 777  /home/runner/work/text_to_speech_api_for_hf/text_to_speech_api_for_hf/voices/
+
+      - name: Set output
+        if: always()
+        id: results
+        run: echo "artifactPath=voices/" >> $GITHUB_OUTPUT
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-try
+          path: voices

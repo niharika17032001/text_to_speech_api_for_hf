@@ -72,7 +72,8 @@ def call_model_with_timeout(text, ref_audio_path, ref_text="", timeout=120):
     if result["status"] == "success":
         audio_url = result["audio_url"]
         try:
-            output_path = "output.wav"
+            output_path = "voices/output.wav"
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             logging.info("Handling audio download/copy from: %s", audio_url)
             if audio_url.startswith("http"):
                 audio_response = requests.get(audio_url)

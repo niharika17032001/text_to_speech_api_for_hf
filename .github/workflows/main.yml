@@ -38,9 +38,6 @@ jobs:
         run: |
           source .venv/bin/activate
           python model_handler.py
-          
-          
-          
           chmod 777  /home/runner/work/text_to_speech_api_for_hf/text_to_speech_api_for_hf/voices/
 
       - name: Set output

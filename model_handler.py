@@ -42,7 +42,7 @@ logging.basicConfig(
 
 client = Client("ai4bharat/IndicF5")
 
-def call_model_with_timeout(text, ref_audio_path, ref_text="", timeout=120):
+def call_model_with_timeout(text, ref_audio_path, ref_text="", timeout=3600):
     result = {"status": None, "audio_url": None}
 
     def run():
@@ -94,7 +94,7 @@ def call_model_with_timeout(text, ref_audio_path, ref_text="", timeout=120):
         return result["status"], None
 
 
-def main():
+def main(text = "यह एक परीक्षण वाक्य है।"):
     ref_audio_url = "https://github.com/AI4Bharat/IndicF5/raw/refs/heads/main/prompts/PAN_F_HAPPY_00002.wav"
     ref_audio_path = "PAN_F_HAPPY_00002.wav"
     logging.info("Downloading reference audio from %s", ref_audio_url)
@@ -106,7 +106,7 @@ def main():
         logging.error("Failed to download reference audio: %s", e)
         return
 
-    text = "यह एक परीक्षण वाक्य है।"
+
     ref_text = "ਇੱਕ ਗ੍ਰਾਹਕ ਨੇ ਸਾਡੀ ਬੇਮਿਸਾਲ ਸੇਵਾ ਬਾਰੇ ਦਿਲੋਂਗਵਾਹੀ ਦਿੱਤੀ ਜਿਸ ਨਾਲ ਸਾਨੂੰ ਅਨੰਦ ਮਹਿਸੂਸ ਹੋਇਆ।"
 
     if not os.path.exists(ref_audio_path):
@@ -125,4 +125,29 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    text='''ज़रूर! यहाँ एक छोटी लेकिन दिलचस्प हिंदी कहानी है, जिसका नाम है "ईमानदारी का इनाम":
+ईमानदारी का इनाम
+
+एक बार की बात है, एक छोटे से गाँव में एक गरीब लकड़हारा रहता था। हर दिन वह जंगल में जाता और लकड़ियाँ काटकर उन्हें बाजार में बेचता, जिससे उसका गुज़ारा चलता।
+
+एक दिन जब वह नदी किनारे पेड़ काट रहा था, तभी उसकी कुल्हाड़ी हाथ से फिसलकर नदी में गिर गई। वह बहुत परेशान हुआ क्योंकि उसके पास सिर्फ वही एक कुल्हाड़ी थी जिससे वह कमाई करता था।
+
+वह बैठकर रोने लगा। तभी नदी से एक जलपरी निकली। उसने लकड़हारे से पूछा, “तुम क्यों रो रहे हो?”
+
+लकड़हारे ने सारी बात सच-सच बता दी।
+
+जलपरी मुस्कराई और पानी में डुबकी लगाकर एक सोने की कुल्हाड़ी लेकर आई। उसने पूछा, “क्या यह तुम्हारी कुल्हाड़ी है?”
+
+लकड़हारे ने कहा, “नहीं, यह मेरी नहीं है।”
+
+फिर जलपरी चांदी की कुल्हाड़ी लाई और पूछा, “क्या यह तुम्हारी है?”
+
+लकड़हारे ने फिर कहा, “नहीं, यह भी मेरी नहीं है।”
+
+अंत में जलपरी लोहे की कुल्हाड़ी लाई, तो लकड़हारे की आँखें चमक उठीं। उसने कहा, “हाँ, यही मेरी कुल्हाड़ी है!”
+
+जलपरी उसकी ईमानदारी से बहुत खुश हुई और इनाम में उसे तीनों कुल्हाड़ियाँ दे दीं — सोने की, चांदी की और लोहे की।
+
+लकड़हारा बहुत खुश होकर घर लौटा।
+'''
+    main(text)
